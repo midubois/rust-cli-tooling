@@ -1,32 +1,26 @@
+use anyhow::{Context, Result};
 use clap::Parser;
 
-
-/// Command line arguments for the grrs tool.
+/// Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser)]
 struct Cli {
+    /// The pattern to look for
     pattern: String,
+    /// The path to the file to read
     path: std::path::PathBuf,
 }
 
-#![allow(unused)]
-fn main() {
+fn main() -> Result<()> {
     let args = Cli::parse();
-    //let pattern = std::env::args().nth(1).expect("No pattern given");
-    //let path = std::env::args().nth(2).expect("No path given");
 
-    // let args = Cli {
-    //     pattern,
-    //     path: std::path::PathBuf::from(path),
-    // };
+    let content = std::fs::read_to_string(&args.path)
+        .with_context(|| format!("could not read file `{}`", args.path.display()))?;
 
-    // let content = std::fs::read_to_string(&args.path).expect("could not read file");
-    // for line in content.lines() {
-    //     if line.contains(&args.pattern) {
-    //         println!("{}", line);
-    //     }
-    // }
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line);
+        }
+    }
 
-    
-
-    println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
+    Ok(())
 }
