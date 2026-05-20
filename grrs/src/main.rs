@@ -8,6 +8,7 @@ struct Cli {
     path: std::path::PathBuf,
 }
 
+#![allow(unused)]
 fn main() {
     let args = Cli::parse();
     //let pattern = std::env::args().nth(1).expect("No pattern given");
@@ -17,6 +18,15 @@ fn main() {
     //     pattern,
     //     path: std::path::PathBuf::from(path),
     // };
+
+    // let content = std::fs::read_to_string(&args.path).expect("could not read file");
+    // for line in content.lines() {
+    //     if line.contains(&args.pattern) {
+    //         println!("{}", line);
+    //     }
+    // }
+
+    
 
     println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 }
